@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyguardian"
+version = "0.1.0"
+description = "A unified quality gate and static analysis tool for Python projects."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+    { name = "Егор Александров" }
+]
+
+[project.scripts]
+pyguardian = "pyguardian.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
