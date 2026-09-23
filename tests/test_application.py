@@ -17,3 +17,23 @@ def test_check_project_counts_python_files(tmp_path: Path) -> None:
     assert result.files_checked == 2
     assert result.issues_found == 0
     assert result.success
+
+
+def test_check_project_finds_syntax_error(tmp_path: Path) -> None:
+    """Find syntax errors in a Python project."""
+
+    broken_file = tmp_path / "broken.py"
+    broken_file.write_text(
+        "def hello()\n"
+        "   return 'Hello, World!'"
+    )
+
+    result = check_project(tmp_path)
+
+    assert result.files_checked == 1
+    assert result.issues_found == 1
+    assert not result.success
+    assert result.issues[0].path == broken_file
+    assert result.issues[0].line == 1
+    assert result.issues[0].column > 0
+    assert result.issues[0].message

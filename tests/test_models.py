@@ -1,4 +1,15 @@
-from pyguardian.models import CheckResult
+from pathlib import Path
+
+from pyguardian.models import Issue, CheckResult
+
+
+def test_issue() -> None:
+    issue = Issue(
+        path=Path("example.py"),
+        line=1,
+        column=5,
+        message="Syntax error",
+    )
 
 
 def test_check_result_success() -> None:
@@ -6,7 +17,7 @@ def test_check_result_success() -> None:
 
     result = CheckResult(
         files_checked=2,
-        issues_found=0,
+        issues=[],
     )
 
     assert result.success
@@ -17,7 +28,14 @@ def test_check_result_failure() -> None:
 
     result = CheckResult(
         files_checked=2,
-        issues_found=1,
+        issues=[
+            Issue(
+                path=Path("example.py"),
+                line=1,
+                column=5,
+                message="Syntax error",
+            )
+        ],
     )
 
     assert not result.success
