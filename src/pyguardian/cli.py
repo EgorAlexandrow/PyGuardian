@@ -42,3 +42,9 @@ def check(path: Path) -> None:
     result = check_project(path)
     typer.echo(f"Files checked: {result.files_checked}")
     typer.echo(f"Issues found: {result.issues_found}")
+
+    for issue in result.issues:
+        typer.echo(f'{issue.path}:{issue.line}:{issue.column} - {issue.message}')
+
+    if not result.success:
+        raise typer.Exit(code=1)
